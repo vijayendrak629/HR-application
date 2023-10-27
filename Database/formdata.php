@@ -1,16 +1,5 @@
 <?php
-$dbHost = 'localhost';
-$dbUser = 'root';
-$dbPass = '';
-$dbName = 'internal';
-
-// Create a connection to the MySQL database
-$connection = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
-
-// Check the connection
-if ($connection->connect_error) {
-    die("Connection failed: " . $connection->connect_error);
-}
+include "Database/connection.php";
 
 // Retrieve data from the form
 $employee_id = $_POST["employee_id"];
@@ -58,6 +47,3 @@ if ($emailCheckResult->num_rows > 0 && $employeeIdCheckResult->num_rows > 0) {
 }
 
 
-// Close the database connection
-$connection->close();
-?>

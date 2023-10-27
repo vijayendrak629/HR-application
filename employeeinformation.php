@@ -67,7 +67,7 @@
 <body>
     <h1>Employee Information Form</h1>
     <div class="container">
-        <form action="submit.php" method="post">
+        <form action="Database/formdata.php" method="post">
             <div class="form-group">
                 <label for="employee_id">Employee ID:</label>
                 <input type="text" name="employee_id" required>
