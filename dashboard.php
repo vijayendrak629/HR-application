@@ -4,6 +4,49 @@ if (!isset($_SESSION['username'])) {
     header('Location: login.php');
     exit;
 }
+
+$dbHost = 'localhost';
+$dbUser = 'root';
+$dbPass = '';
+$dbName = 'internal';
+
+// Create a connection to the MySQL database
+$connection = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
+
+// Check the connection
+if ($connection->connect_error) {
+    die("Connection failed: " . $connection->connect_error);
+}
+$tomorrow = date('Y-m-d', strtotime('+1 day'));
+$birthdayQuery = "SELECT full_name, dob FROM employee_details WHERE DATE_FORMAT(dob, '%m-%d') = DATE_FORMAT('$tomorrow', '%m-%d')";
+$birthdayResult = $connection->query($birthdayQuery);
+
+$upcomingBirthdays = [];
+
+if ($birthdayResult->num_rows > 0) {
+    while ($row = $birthdayResult->fetch_assoc()) {
+        $upcomingBirthdays[] = $row;
+    }
+}
+
+// Query for upcoming work anniversaries
+$anniversaryQuery = "SELECT full_name, joining_date FROM employee_details WHERE DATE_FORMAT(joining_date, '%m-%d') = DATE_FORMAT('$tomorrow', '%m-%d')";
+$anniversaryResult = $connection->query($anniversaryQuery);
+
+$upcomingAnniversaries = [];
+
+if ($anniversaryResult->num_rows > 0) {
+    while ($row = $anniversaryResult->fetch_assoc()) {
+        $joiningDate = new DateTime($row['joining_date']);
+        $currentDate = new DateTime();
+
+        // Calculate the work anniversary year
+        $workAnniversaryYear = $currentDate->diff($joiningDate)->y + 1;
+
+        $row['work_anniversary_year'] = $workAnniversaryYear;
+        $upcomingAnniversaries[] = $row;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -85,7 +128,7 @@ if (!isset($_SESSION['username'])) {
 <body>
 <button id="logout-button" onclick="location.href='logout.php'">Logout</button>
     <div class="dashboard-container">
-        
+        <div class="column">
         <h1>Welcome, John Doe</h1>
         <h2>Select Functionality:</h2>
         <select id="functionality">
@@ -109,6 +152,32 @@ if (!isset($_SESSION['username'])) {
         <textarea id="email_template" rows="5" placeholder="Paste your email template here"></textarea>
 
         <button id="send_email">Send Email</button>
+        </div>
     </div>
+
+        <div class="column">
+        <h1>Upcoming Birthday</h1>
+        <ul>
+            <?php foreach ($upcomingBirthdays as $birthday) : ?>
+                <li>
+                    <strong>Name Of Employee:</strong> <?php echo $birthday['full_name']; ?><br>
+                    <strong>Birthdate:</strong> <?php echo $birthday['dob']; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        
+
+        <h1>Upcoming Work Anniversary</h1>
+        <ul>
+            <?php foreach ($upcomingAnniversaries as $anniversary) : ?>
+                <li>
+                    <strong>Name Of Employee:</strong> <?php echo $anniversary['full_name']; ?><br>
+                    <strong>Joining Date:</strong> <?php echo $anniversary['joining_date']; ?><br>
+                    <strong>Work Anniversary Year:</strong> <?php echo $anniversary['work_anniversary_year']; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        </div>
+    
 </body>
 </html>
