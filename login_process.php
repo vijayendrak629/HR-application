@@ -28,6 +28,7 @@ if ($result->num_rows == 1) {
 } else {
     // Login failed.
     header('Location: login.php?error=1');
+    
 }
 
 $conn->close();
