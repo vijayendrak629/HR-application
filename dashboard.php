@@ -118,6 +118,50 @@ if ($anniversaryResult->num_rows > 0) {
             background-color: #c0392b; /* Hover style */
         }
 
+
+        .column {
+            flex: 1;
+            padding: 20px;
+            background-color: #f1f1f1;
+        }
+
+        .upcoming-events {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            margin: 10px 0;
+        }
+
+        .event-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .event-list li {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #333;
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .name {
+            font-weight: bold;
+        }
+
+        .work-anniversary {
+            color: #3498db;
+        }
+
+        @media (max-width: 768px) {
+            .column, .column-right {
+                flex: 100%;
+            }
+        }
+
         @media (max-width: 400px) {
             .dashboard-container {
                 width: 90%;
@@ -155,29 +199,33 @@ if ($anniversaryResult->num_rows > 0) {
         </div>
     </div>
 
+    <div class="container">
         <div class="column">
-        <h1>Upcoming Birthday</h1>
-        <ul>
-            <?php foreach ($upcomingBirthdays as $birthday) : ?>
-                <li>
-                    <strong>Name Of Employee:</strong> <?php echo $birthday['full_name']; ?><br>
-                    <strong>Birthdate:</strong> <?php echo $birthday['dob']; ?>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-        
-
-        <h1>Upcoming Work Anniversary</h1>
-        <ul>
-            <?php foreach ($upcomingAnniversaries as $anniversary) : ?>
-                <li>
-                    <strong>Name Of Employee:</strong> <?php echo $anniversary['full_name']; ?><br>
-                    <strong>Joining Date:</strong> <?php echo $anniversary['joining_date']; ?><br>
-                    <strong>Work Anniversary Year:</strong> <?php echo $anniversary['work_anniversary_year']; ?>
-                </li>
-            <?php endforeach; ?>
-        </ul>
+            <div class="upcoming-events">
+                <h2>Upcoming Birthday</h2>
+                <ul class="event-list">
+                    <?php foreach ($upcomingBirthdays as $birthday) : ?>
+                        <li>
+                            <span class="name">Name Of Employee:</span> <?php echo $birthday['full_name']; ?><br>
+                            <span>Birthdate:</span> <?php echo $birthday['dob']; ?>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <div class="upcoming-events">
+                <h2>Upcoming Work Anniversary</h2>
+                <ul class="event-list">
+                    <?php foreach ($upcomingAnniversaries as $anniversary) : ?>
+                        <li>
+                            <span class="name">Name Of Employee:</span> <?php echo $anniversary['full_name']; ?><br>
+                            <span>Joining Date:</span> <?php echo $anniversary['joining_date']; ?><br>
+                            <span class="work-anniversary">Work Anniversary Year:</span> <?php echo $anniversary['work_anniversary_year']; ?>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
         </div>
+    </div>
     
 </body>
 </html>
