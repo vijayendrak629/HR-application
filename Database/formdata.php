@@ -1,5 +1,8 @@
 <?php
-include "Database/connection.php";
+include "connection.php";
+
+// Define the redirect URL
+$redirectURL = "http://localhost/calender/employeeinformation.php";
 
 // Retrieve data from the form
 $employee_id = $_POST["employee_id"];
@@ -14,15 +17,15 @@ $employeeIdCheckResult = $connection->query($employeeIdCheckQuery);
 if ($emailCheckResult->num_rows > 0 && $employeeIdCheckResult->num_rows > 0) {
     // Both email and employee ID already exist in the database
     echo '<script>alert("Email ID and Employee ID already exist.");</script>';
-    echo '<script>window.setTimeout(function() { window.location = "employeeinformation.php"; }, 2000);</script>';
+    echo '<script>window.setTimeout(function() { window.location = "' . $redirectURL . '"; }, 2000);</script>';
 } elseif ($emailCheckResult->num_rows > 0) {
     // Email already exists in the database
     echo '<script>alert("Email ID already exists.");</script>';
-    echo '<script>window.setTimeout(function() { window.location = "employeeinformation.php"; }, 2000);</script>';
+    echo '<script>window.setTimeout(function() { window.location = "' . $redirectURL . '"; }, 2000);</script>';
 } elseif ($employeeIdCheckResult->num_rows > 0) {
     // Employee ID already exists in the database
     echo '<script>alert("Employee ID already exists.");</script>';
-    echo '<script>window.setTimeout(function() { window.location = "employeeinformation.php"; }, 2000);</script>';
+    echo '<script>window.setTimeout(function() { window.location = "' . $redirectURL . '"; }, 2000);</script>';
 } else {
     // Email and employee ID are unique; proceed with the insertion
     $full_name = $_POST["full_name"];
@@ -40,10 +43,15 @@ if ($emailCheckResult->num_rows > 0 && $employeeIdCheckResult->num_rows > 0) {
     if ($connection->query($insertQuery) === TRUE) {
         // Data has been successfully saved
         echo '<script>alert("Employee information has been successfully saved.");</script>';
-        echo '<script>window.setTimeout(function() { window.location = "employeeinformation.php"; }, 2000);</script>';
+        echo '<script>window.setTimeout(function() { redirectToURL("' . $redirectURL . '"); }, 2000);</script>';
     } else {
         echo "Error: " . $insertQuery . "<br>" . $connection->error;
     }
 }
+?>
 
-
+<script>
+function redirectToURL(url) {
+    window.location = url;
+}
+</script>

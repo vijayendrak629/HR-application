@@ -1,5 +1,5 @@
 <?php
-include "Database/connection.php";
+include "connection.php";
 
 $tomorrow = date('Y-m-d', strtotime('+1 day'));
 $birthdayQuery = "SELECT full_name, dob FROM employee_details WHERE DATE_FORMAT(dob, '%m-%d') = DATE_FORMAT('$tomorrow', '%m-%d')";

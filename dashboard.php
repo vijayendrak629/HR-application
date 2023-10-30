@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['username'])) {
-    header('Location: login.php');
+    header('Location: index.php');
     exit;
 }
 include "Database/upcomingdb.php";
@@ -131,31 +131,34 @@ include "Database/upcomingdb.php";
 <button id="logout-button" onclick="location.href='logout.php'">Logout</button>
     <div class="dashboard-container">
         <div class="column">
-        <h1>Welcome, John Doe</h1>
-        <h2>Select Functionality:</h2>
-        <select id="functionality">
-            <option value="festive_notification">Festive Notification</option>
-            <option value="new_employee_welcome">New Employee Welcome</option>
-            <option value="festive_email">Festive Email</option>
-            <option value="birthday_card">Birthday Card</option>
-            <option value="company_update">Company Update</option>
-        </select>
+            <h1>Welcome, John Doe</h1>
+            <form method="post" action="mail.php">
+                <h2>Select Functionality:</h2>
+                <select name="functionality">
+                    <option value="festive_notification">Festive Notification</option>
+                    <option value="new_employee_welcome">New Employee Welcome</option>
+                    <option value="festive_email">Festive Email</option>
+                    <option value="birthday_card">Birthday Card</option>
+                    <option value="company_update">Company Update</option>
+                </select>
 
-        <h2>Select Email Sender:</h2>
-        <select id="email_sender">
-            <option value="martechs_email">Martechs Email</option>
-            <option value="hr_email">HR Email</option>
-        </select>
+                <h2>Select Email Sender:</h2>
+                <select name="email_sender">
+                    <option value="martechs_email">Martechs Email</option>
+                    <option value="hr_email">HR Email</option>
+                </select>
 
-        <h2>Select Recipients:</h2>
-        <input type="text" id="recipients" placeholder="Enter email addresses, comma-separated">
+                <h2>Select Recipients:</h2>
+                <input type="text" name="recipients" placeholder="Enter email addresses, comma-separated">
 
-        <h2>Set Email Template:</h2>
-        <textarea id="email_template" rows="5" placeholder="Paste your email template here"></textarea>
+                <h2>Set Email Template:</h2>
+                <textarea name="email_template" rows="5" placeholder="Paste your email template here"></textarea>
 
-        <button id="send_email">Send Email</button>
+                <button type="submit">Send Email</button>
+            </form>
         </div>
     </div>
+
 
     <div class="container">
         <div class="column">
