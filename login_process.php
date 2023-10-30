@@ -16,7 +16,7 @@ if ($result->num_rows == 1) {
     header('Location: dashboard.php');
 } else {
     // Login failed.
-    header('Location: login.php?error=1');
+    header('Location: index.php?error=1');
     
 }
 
